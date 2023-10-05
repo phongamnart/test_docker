@@ -8,7 +8,7 @@ class Product(BaseModel):
     name_product: str
     price: float
 
-products = []
+products = ["Product"]
 
 @app.get("/")
 def index():
