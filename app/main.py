@@ -8,22 +8,19 @@ class Product(BaseModel):
     name_product: str
     price: float
 
-products = [
-    Product(barcode="12345", name_product="Singha", price=15.00),
-    Product(barcode="67890", name_product="Noodle", price=7.00),
-]
+products = []
 
 @app.get("/")
 def index():
     return products
 
-# สร้างเส้นทาง HTTP POST เพื่อเพิ่มข้อมูลสินค้า
+# Add product POST
 @app.post("/add-product/")
 def add_product(product: Product):
     products.append(product)
     return {"message": f"Product {product.name_product} has been added."}
 
-# เส้นทาง HTTP PUT เพื่อแก้ไขข้อมูลสินค้า
+# Edit product PUT
 @app.put("/update-product/{product_name}")
 def update_product(product_name: str, updated_product: Product):
     for i, product in enumerate(products):
@@ -32,7 +29,7 @@ def update_product(product_name: str, updated_product: Product):
             return {"message": f"Product {product_name} has been updated."}
     return {"error": f"Product {product_name} not found."}
 
-# เส้นทาง HTTP DELETE เพื่อลบข้อมูลสินค้า
+# Delete product DELETE
 @app.delete("/delete-product/{product_name}")
 def delete_product(product_name: str):
     for product in products:
@@ -41,7 +38,7 @@ def delete_product(product_name: str):
             return {"message": f"Product {product_name} has been deleted."}
     return {"error": f"Product {product_name} not found."}
 
-# เส้นทางสำหรับดูรายการสินค้าทั้งหมด
+# All product GET
 @app.get("/products/")
 def get_products():
     return {"products": [product.dict() for product in products]}
